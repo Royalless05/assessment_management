@@ -1,0 +1,104 @@
+{
+ "doctype": "DocType",
+ "name": "Assessor KPI",
+ "module": "Assessment Management",
+ "custom": 0,
+ "engine": "InnoDB",
+ "istable": 0,
+ "editable_grid": 0,
+ "fields": [
+  {
+   "fieldname": "assessor",
+   "fieldtype": "Link",
+   "label": "Assessor",
+   "options": "Assessor",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "month",
+   "fieldtype": "Date",
+   "label": "Month (first day)",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "jumlah_simulasi",
+   "fieldtype": "Select",
+   "label": "Jumlah Simulasi",
+   "options": "On Target\nBelow Target",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "kualitas_observasi",
+   "fieldtype": "Select",
+   "label": "Kualitas Observasi",
+   "options": "On Target\nBelow Target"
+  },
+  {
+   "fieldname": "konsistensi_pelaporan",
+   "fieldtype": "Select",
+   "label": "Konsistensi Pelaporan",
+   "options": "On Target\nBelow Target"
+  },
+  {
+   "fieldname": "kepatuhan_administratif",
+   "fieldtype": "Select",
+   "label": "Kepatuhan Administratif",
+   "options": "On Target\nBelow Target"
+  },
+  {
+   "fieldname": "feedback_peserta",
+   "fieldtype": "Select",
+   "label": "Feedback Peserta",
+   "options": "On Target\nBelow Target"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  }
+ ],
+ "field_order": [
+  "assessor",
+  "month",
+  "jumlah_simulasi",
+  "kualitas_observasi",
+  "konsistensi_pelaporan",
+  "kepatuhan_administratif",
+  "feedback_peserta",
+  "remarks"
+ ],
+ "permissions": [
+  {
+   "role": "Assessment Admin",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "report": 1,
+   "print": 1,
+   "share": 1,
+   "email": 1
+  },
+  {
+   "role": "Assessment Admin View",
+   "read": 1,
+   "export": 1,
+   "report": 1,
+   "print": 1
+  },
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1,
+ "autoname": "hash"
+}

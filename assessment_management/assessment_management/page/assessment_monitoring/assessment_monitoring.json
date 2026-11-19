@@ -1,0 +1,20 @@
+{
+ "doctype": "Page",
+ "name": "assessment-monitoring",
+ "page_name": "assessment-monitoring",
+ "title": "Assessment Monitoring",
+ "module": "Assessment Management",
+ "standard": "Yes",
+ "roles": [
+  {
+   "role": "Assessment Admin"
+  },
+  {
+   "role": "Assessment Admin View"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "icon": "chart"
+}

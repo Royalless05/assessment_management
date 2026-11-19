@@ -1,0 +1,228 @@
+{
+ "doctype": "Workspace",
+ "name": "Assessment Management",
+ "label": "Assessment Management",
+ "title": "Assessment Management",
+ "module": "Assessment Management",
+ "public": 1,
+ "is_hidden": 0,
+ "sequence_id": 1,
+ "icon": "assets",
+ "indicator_color": "blue",
+ "description": "Competency assessment management",
+ "content": "[{\"id\": \"o8OKhNbpcR\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Shortcuts</b></span>\", \"col\": 12}}, {\"id\": \"O5mJA2imbo\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Assessment\", \"col\": 3}}, {\"id\": \"H11C9aKL9H\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Working Sheet\", \"col\": 3}}, {\"id\": \"YxQ01oJpAZ\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Dashboard\", \"col\": 3}}, {\"id\": \"mFhv6sRcr2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Monitoring\", \"col\": 3}}, {\"id\": \"RXq0NQhIO6\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Assessor\", \"col\": 3}}, {\"id\": \"j2JTtb3c7K\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Assessee\", \"col\": 3}}, {\"id\": \"pKQvFqn0jX\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"DpX2qFX3jq\", \"type\": \"card\", \"data\": {\"card_name\": \"Master Data\", \"col\": 4}}, {\"id\": \"8gSJQzwwar\", \"type\": \"card\", \"data\": {\"card_name\": \"Activities\", \"col\": 4}}, {\"id\": \"Ni3QQpSALz\", \"type\": \"card\", \"data\": {\"card_name\": \"Reports & KPI\", \"col\": 4}}]",
+ "shortcuts": [
+  {
+   "label": "Assessment",
+   "type": "DocType",
+   "link_to": "Assessment",
+   "doc_view": "List",
+   "color": "Grey"
+  },
+  {
+   "label": "Working Sheet",
+   "type": "DocType",
+   "link_to": "Working Sheet",
+   "doc_view": "List",
+   "color": "Grey"
+  },
+  {
+   "label": "Dashboard",
+   "type": "Page",
+   "link_to": "assessment-dashboard",
+   "doc_view": "",
+   "color": "Grey"
+  },
+  {
+   "label": "Monitoring",
+   "type": "Page",
+   "link_to": "assessment-monitoring",
+   "doc_view": "",
+   "color": "Grey"
+  },
+  {
+   "label": "Assessor",
+   "type": "DocType",
+   "link_to": "Assessor",
+   "doc_view": "List",
+   "color": "Grey"
+  },
+  {
+   "label": "Assessee",
+   "type": "DocType",
+   "link_to": "Assessee",
+   "doc_view": "List",
+   "color": "Grey"
+  }
+ ],
+ "links": [
+  {
+   "type": "Card Break",
+   "label": "Master Data",
+   "hidden": 0,
+   "is_query_report": 0,
+   "link_count": 5,
+   "onboard": 0
+  },
+  {
+   "type": "Link",
+   "label": "Assessment Project",
+   "link_type": "DocType",
+   "link_to": "Assessment Project",
+   "hidden": 0,
+   "is_query_report": 0,
+   "onboard": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Assessee",
+   "link_type": "DocType",
+   "link_to": "Assessee",
+   "hidden": 0,
+   "is_query_report": 0,
+   "onboard": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Assessor",
+   "link_type": "DocType",
+   "link_to": "Assessor",
+   "hidden": 0,
+   "is_query_report": 0,
+   "onboard": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Assessor Group",
+   "link_type": "DocType",
+   "link_to": "Assessor Group",
+   "hidden": 0,
+   "is_query_report": 0,
+   "onboard": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Competency Master",
+   "link_type": "DocType",
+   "link_to": "Competency Master",
+   "hidden": 0,
+   "is_query_report": 0,
+   "onboard": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Card Break",
+   "label": "Activities",
+   "hidden": 0,
+   "is_query_report": 0,
+   "link_count": 4,
+   "onboard": 0
+  },
+  {
+   "type": "Link",
+   "label": "Assessment",
+   "link_type": "DocType",
+   "link_to": "Assessment",
+   "hidden": 0,
+   "is_query_report": 0,
+   "onboard": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Working Sheet",
+   "link_type": "DocType",
+   "link_to": "Working Sheet",
+   "hidden": 0,
+   "is_query_report": 0,
+   "onboard": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Assessee Answer",
+   "link_type": "DocType",
+   "link_to": "Assessee Answer",
+   "hidden": 0,
+   "is_query_report": 0,
+   "onboard": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Bank Statement",
+   "link_type": "DocType",
+   "link_to": "Bank Statement",
+   "hidden": 0,
+   "is_query_report": 0,
+   "onboard": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Card Break",
+   "label": "Reports & KPI",
+   "hidden": 0,
+   "is_query_report": 0,
+   "link_count": 4,
+   "onboard": 0
+  },
+  {
+   "type": "Link",
+   "label": "Assessment Monitoring",
+   "link_type": "Page",
+   "link_to": "assessment-monitoring",
+   "hidden": 0,
+   "is_query_report": 0,
+   "onboard": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Assessor Fee Summary",
+   "link_type": "Report",
+   "link_to": "Assessor Fee Summary",
+   "hidden": 0,
+   "is_query_report": 1,
+   "onboard": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Assessor KPI",
+   "link_type": "DocType",
+   "link_to": "Assessor KPI",
+   "hidden": 0,
+   "is_query_report": 0,
+   "onboard": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Link",
+   "label": "Assessor Group KPI",
+   "link_type": "DocType",
+   "link_to": "Assessor Group KPI",
+   "hidden": 0,
+   "is_query_report": 0,
+   "onboard": 0,
+   "dependencies": ""
+  }
+ ],
+ "roles": [
+  {
+   "role": "Assessment Admin"
+  },
+  {
+   "role": "Assessment Admin View"
+  },
+  {
+   "role": "Assessor"
+  },
+  {
+   "role": "System Manager"
+  }
+ ]
+}

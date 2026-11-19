@@ -1,0 +1,91 @@
+{
+ "doctype": "DocType",
+ "name": "Assessee",
+ "module": "Assessment Management",
+ "custom": 0,
+ "engine": "InnoDB",
+ "istable": 0,
+ "editable_grid": 0,
+ "fields": [
+  {
+   "fieldname": "assessee_id",
+   "fieldtype": "Data",
+   "label": "Assessee Id",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "label": "Full Name",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "phone",
+   "fieldtype": "Data",
+   "label": "Phone",
+   "options": "Phone"
+  },
+  {
+   "fieldname": "gender",
+   "fieldtype": "Select",
+   "label": "Gender",
+   "options": "\nMale\nFemale"
+  }
+ ],
+ "field_order": [
+  "assessee_id",
+  "full_name",
+  "email",
+  "phone",
+  "gender"
+ ],
+ "permissions": [
+  {
+   "role": "Assessment Admin",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "report": 1,
+   "print": 1,
+   "share": 1,
+   "email": 1
+  },
+  {
+   "role": "Assessment Admin View",
+   "read": 1,
+   "export": 1,
+   "report": 1,
+   "print": 1
+  },
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "Assessor",
+   "read": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1,
+ "autoname": "field:assessee_id",
+ "search_fields": "full_name",
+ "title_field": "full_name",
+ "show_title_field_in_link": 1
+}

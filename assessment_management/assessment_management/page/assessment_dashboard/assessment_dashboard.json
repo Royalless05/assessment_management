@@ -1,0 +1,23 @@
+{
+ "doctype": "Page",
+ "name": "assessment-dashboard",
+ "page_name": "assessment-dashboard",
+ "title": "Assessment Dashboard",
+ "module": "Assessment Management",
+ "standard": "Yes",
+ "roles": [
+  {
+   "role": "Assessment Admin"
+  },
+  {
+   "role": "Assessment Admin View"
+  },
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Assessor"
+  }
+ ],
+ "icon": "chart"
+}

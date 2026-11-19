@@ -1,0 +1,116 @@
+{
+ "doctype": "DocType",
+ "name": "Working Sheet Item",
+ "module": "Assessment Management",
+ "custom": 0,
+ "engine": "InnoDB",
+ "istable": 1,
+ "editable_grid": 1,
+ "fields": [
+  {
+   "fieldname": "competency",
+   "fieldtype": "Link",
+   "label": "Competency",
+   "options": "Competency Master",
+   "reqd": 1,
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "level_1_status",
+   "fieldtype": "Select",
+   "label": "Level 1",
+   "options": "\nMeet\nNot Meet"
+  },
+  {
+   "fieldname": "level_2_status",
+   "fieldtype": "Select",
+   "label": "Level 2",
+   "options": "\nMeet\nNot Meet"
+  },
+  {
+   "fieldname": "level_3_status",
+   "fieldtype": "Select",
+   "label": "Level 3",
+   "options": "\nMeet\nNot Meet"
+  },
+  {
+   "fieldname": "level_4_status",
+   "fieldtype": "Select",
+   "label": "Level 4",
+   "options": "\nMeet\nNot Meet"
+  },
+  {
+   "fieldname": "level_5_status",
+   "fieldtype": "Select",
+   "label": "Level 5",
+   "options": "\nMeet\nNot Meet"
+  },
+  {
+   "fieldname": "rating",
+   "fieldtype": "Float",
+   "label": "Rating",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "suggested_score",
+   "fieldtype": "Float",
+   "label": "Suggested Score",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "qc_rating",
+   "fieldtype": "Float",
+   "label": "Qc Rating",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "flag",
+   "fieldtype": "Select",
+   "label": "Flag",
+   "options": "\nEmpty\nI'm not sure\nParticipant Answer can't be assessed",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "evidence",
+   "fieldtype": "Small Text",
+   "label": "Evidence"
+  },
+  {
+   "fieldname": "analysis",
+   "fieldtype": "Small Text",
+   "label": "Analysis"
+  },
+  {
+   "fieldname": "assessor_notes",
+   "fieldtype": "Small Text",
+   "label": "Assessor Notes"
+  },
+  {
+   "fieldname": "qc_notes",
+   "fieldtype": "Small Text",
+   "label": "Qc Notes"
+  }
+ ],
+ "field_order": [
+  "competency",
+  "level_1_status",
+  "level_2_status",
+  "level_3_status",
+  "level_4_status",
+  "level_5_status",
+  "rating",
+  "suggested_score",
+  "qc_rating",
+  "flag",
+  "evidence",
+  "analysis",
+  "assessor_notes",
+  "qc_notes"
+ ],
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 0
+}

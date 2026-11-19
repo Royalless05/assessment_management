@@ -1,0 +1,65 @@
+{
+ "doctype": "DocType",
+ "name": "Assessment Project",
+ "module": "Assessment Management",
+ "custom": 0,
+ "engine": "InnoDB",
+ "istable": 0,
+ "editable_grid": 0,
+ "fields": [
+  {
+   "fieldname": "project_name",
+   "fieldtype": "Data",
+   "label": "Project Name",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "target_data",
+   "fieldtype": "Int",
+   "label": "Target Data",
+   "in_list_view": 1
+  }
+ ],
+ "field_order": [
+  "project_name",
+  "target_data"
+ ],
+ "permissions": [
+  {
+   "role": "Assessment Admin",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "report": 1,
+   "print": 1,
+   "share": 1,
+   "email": 1
+  },
+  {
+   "role": "Assessment Admin View",
+   "read": 1,
+   "export": 1,
+   "report": 1,
+   "print": 1
+  },
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "Assessor",
+   "read": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1,
+ "autoname": "field:project_name"
+}

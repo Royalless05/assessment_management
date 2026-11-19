@@ -1,0 +1,34 @@
+{
+ "doctype": "DocType",
+ "name": "Assessor Fee",
+ "module": "Assessment Management",
+ "custom": 0,
+ "engine": "InnoDB",
+ "istable": 1,
+ "editable_grid": 1,
+ "fields": [
+  {
+   "fieldname": "assessment_type",
+   "fieldtype": "Select",
+   "label": "Assessment Type",
+   "options": "SPM\nSRB\nPK\nRW\nFeedback\nQC",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "fee_amount",
+   "fieldtype": "Currency",
+   "label": "Fee Amount",
+   "reqd": 1,
+   "in_list_view": 1
+  }
+ ],
+ "field_order": [
+  "assessment_type",
+  "fee_amount"
+ ],
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 0
+}

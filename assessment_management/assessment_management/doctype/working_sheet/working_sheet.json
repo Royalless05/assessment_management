@@ -1,0 +1,201 @@
+{
+ "doctype": "DocType",
+ "name": "Working Sheet",
+ "module": "Assessment Management",
+ "custom": 0,
+ "engine": "InnoDB",
+ "istable": 0,
+ "editable_grid": 0,
+ "fields": [
+  {
+   "fieldname": "assessment",
+   "fieldtype": "Link",
+   "label": "Assessment",
+   "options": "Assessment",
+   "reqd": 1,
+   "set_only_once": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "assessment_type",
+   "fieldtype": "Select",
+   "label": "Assessment Type",
+   "options": "SPM\nSRB\nPK\nRW\nQC\nFeedback",
+   "reqd": 1,
+   "set_only_once": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Assessment Project",
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "assessee",
+   "fieldtype": "Link",
+   "label": "Assessee",
+   "options": "Assessee",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "assessor",
+   "fieldtype": "Link",
+   "label": "Assessor",
+   "options": "Assessor",
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "sheet_status",
+   "fieldtype": "Select",
+   "label": "Sheet Status",
+   "options": "Draft\nFinished\nRevision",
+   "default": "Draft",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "last_autosaved",
+   "fieldtype": "Datetime",
+   "label": "Last Autosaved",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sb_ctx",
+   "fieldtype": "Section Break",
+   "label": "Assessee Answers & Indicators"
+  },
+  {
+   "fieldname": "context_html",
+   "fieldtype": "HTML",
+   "label": "Context Html"
+  },
+  {
+   "fieldname": "sb_items",
+   "fieldtype": "Section Break",
+   "label": "Competency Assessment"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Working Sheet Item"
+  },
+  {
+   "fieldname": "sb_narr",
+   "fieldtype": "Section Break",
+   "label": "Narrative",
+   "depends_on": "eval:['RW','QC'].includes(doc.assessment_type)"
+  },
+  {
+   "fieldname": "ig_notes",
+   "fieldtype": "Text",
+   "label": "IG Notes",
+   "depends_on": "eval:doc.assessment_type=='RW'"
+  },
+  {
+   "fieldname": "qc_notes",
+   "fieldtype": "Text",
+   "label": "QC Notes",
+   "depends_on": "eval:doc.assessment_type=='QC'"
+  },
+  {
+   "fieldname": "strength",
+   "fieldtype": "Text",
+   "label": "Strength"
+  },
+  {
+   "fieldname": "weakness",
+   "fieldtype": "Text",
+   "label": "Weakness"
+  },
+  {
+   "fieldname": "sb_fb",
+   "fieldtype": "Section Break",
+   "label": "Feedback",
+   "depends_on": "eval:doc.assessment_type=='Feedback'"
+  },
+  {
+   "fieldname": "video_feedback_link",
+   "fieldtype": "Data",
+   "label": "Video Feedback Results Link",
+   "options": "URL"
+  },
+  {
+   "fieldname": "feedback_photo",
+   "fieldtype": "Attach Image",
+   "label": "Photo Evidence (JPG/JPEG/PNG, max 1 MB)"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  }
+ ],
+ "field_order": [
+  "assessment",
+  "assessment_type",
+  "project",
+  "assessee",
+  "assessor",
+  "sheet_status",
+  "last_autosaved",
+  "sb_ctx",
+  "context_html",
+  "sb_items",
+  "items",
+  "sb_narr",
+  "ig_notes",
+  "qc_notes",
+  "strength",
+  "weakness",
+  "sb_fb",
+  "video_feedback_link",
+  "feedback_photo",
+  "remarks"
+ ],
+ "permissions": [
+  {
+   "role": "Assessment Admin",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "report": 1,
+   "print": 1,
+   "share": 1,
+   "email": 1
+  },
+  {
+   "role": "Assessment Admin View",
+   "read": 1,
+   "export": 1,
+   "report": 1,
+   "print": 1
+  },
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "Assessor",
+   "read": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1,
+ "autoname": "WS-.#####"
+}

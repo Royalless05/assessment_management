@@ -1,0 +1,11 @@
+{
+ "doctype": "Print Format",
+ "name": "Final Report Assessee",
+ "doc_type": "Assessment",
+ "module": "Assessment Management",
+ "standard": "Yes",
+ "custom_format": 1,
+ "print_format_type": "Jinja",
+ "html": "<style>\n .fr h2{margin:0 0 4px} .fr table{width:100%;border-collapse:collapse;margin:8px 0 16px}\n .fr th,.fr td{border:1px solid #bbb;padding:4px 6px;font-size:11px;vertical-align:top} .fr th{background:#f0f0f0}\n .fr .txt{white-space:pre-wrap;font-size:11px;text-align:justify}\n</style>\n{% set r = get_final_report(doc.name) %}\n<div class=\"fr\">\n<h2>Final Report - {{ r.assessee.full_name }} ({{ r.assessee.assessee_id }})</h2>\n<div>Project: {{ r.project }} &nbsp;|&nbsp; Progress: {{ r.progress }}</div>\n<h4>Sheet Status</h4>\n<table><tr><th>Type</th><th>Assessor</th><th>Status</th><th>Finished At</th></tr>\n{% for s in r.stages %}<tr><td>{{ s.type }}</td><td>{{ s.assessor or \"-\" }}</td><td>{{ s.status }}</td><td>{{ s.finished_at or \"-\" }}</td></tr>{% endfor %}</table>\n<h4>Assessor Flag Distribution</h4>\n<table><tr><th>Flag</th><th>Count</th></tr>\n{% for k, v in r.flag_distribution.items() %}<tr><td>{{ k }}</td><td>{{ v }}</td></tr>{% else %}<tr><td colspan=\"2\">No flags</td></tr>{% endfor %}</table>\n<h4>Competence Result</h4>\n<table><tr><th>Competency</th><th>SPM</th><th>SRB</th><th>PK</th><th>IG Final</th><th>QC Final</th></tr>\n{% for c in r.competence %}<tr><td>{{ c.competency }}</td><td>{{ c.SPM or \"-\" }}</td><td>{{ c.SRB or \"-\" }}</td><td>{{ c.PK or \"-\" }}</td><td>{{ c.IG or \"-\" }}</td><td>{{ c.QC or \"-\" }}</td></tr>{% endfor %}</table>\n<h4>Strength</h4><div class=\"txt\">{{ r.strength or \"-\" }}</div>\n<h4>Weakness</h4><div class=\"txt\">{{ r.weakness or \"-\" }}</div>\n</div>",
+ "disabled": 0
+}

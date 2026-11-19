@@ -1,0 +1,33 @@
+{
+ "doctype": "DocType",
+ "name": "Competency Indicator",
+ "module": "Assessment Management",
+ "custom": 0,
+ "engine": "InnoDB",
+ "istable": 1,
+ "editable_grid": 1,
+ "fields": [
+  {
+   "fieldname": "level",
+   "fieldtype": "Int",
+   "label": "Level",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "indicator",
+   "fieldtype": "Small Text",
+   "label": "Indicator",
+   "reqd": 1,
+   "in_list_view": 1
+  }
+ ],
+ "field_order": [
+  "level",
+  "indicator"
+ ],
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 0
+}

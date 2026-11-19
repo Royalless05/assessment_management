@@ -1,0 +1,82 @@
+{
+ "doctype": "DocType",
+ "name": "Assessee Answer",
+ "module": "Assessment Management",
+ "custom": 0,
+ "engine": "InnoDB",
+ "istable": 0,
+ "editable_grid": 0,
+ "fields": [
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Assessment Project",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "assessee",
+   "fieldtype": "Link",
+   "label": "Assessee",
+   "options": "Assessee",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "assessment_type",
+   "fieldtype": "Select",
+   "label": "Assessment Type",
+   "options": "SPM\nSRB\nPK\nAspirasi Karir\nTanggung Jawab",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "answers_json",
+   "fieldtype": "Long Text",
+   "label": "Answers Json"
+  }
+ ],
+ "field_order": [
+  "project",
+  "assessee",
+  "assessment_type",
+  "answers_json"
+ ],
+ "permissions": [
+  {
+   "role": "Assessment Admin",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "report": 1,
+   "print": 1,
+   "share": 1,
+   "email": 1
+  },
+  {
+   "role": "Assessment Admin View",
+   "read": 1,
+   "export": 1,
+   "report": 1,
+   "print": 1
+  },
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "Assessor",
+   "read": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1,
+ "autoname": "hash"
+}

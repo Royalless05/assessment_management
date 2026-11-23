@@ -109,7 +109,7 @@ frappe.pages["assessor-report"].on_page_load = function (wrapper) {
 				const $apply = $(`<button class="btn btn-sm btn-primary" style="align-self:flex-end">${__("Apply")}</button>`).appendTo($f);
 				const $out = $("<div></div>").appendTo($pane);
 				function load() {
-					frappe.call({ method: "assessment_management.api.get_fee_summary", args: { assessor: name, from_date: cFrom.get_value(), to_date: cTo.get_value() }, callback: (r) => {
+					frappe.call({ method: "assessment_management.api.get_fee_summary", args: { assessor: name, from_date: cFrom.get_value() || frappe.datetime.month_start(), to_date: cTo.get_value() || frappe.datetime.month_end() }, callback: (r) => {
 						const d = r.message;
 						$out.html(table(["#", __("Assessment Type"), __("Total Sheets"), __("Fee per Sheet"), __("Total Fee")],
 							d.by_type.map((x, i) => [i + 1, esc(x.type), x.count, money(x.count ? x.amount / x.count : 0), money(x.amount)])) +

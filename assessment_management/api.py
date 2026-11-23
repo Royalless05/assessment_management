@@ -94,7 +94,9 @@ def import_answers(project, assessment_type, file_url, overwrite=1):
 			if not cint(overwrite):
 				result["skipped"] += 1
 				continue
-			frappe.db.set_value("Assessee Answer", existing, "answers_json", json.dumps(answers, ensure_ascii=False))
+			doc = frappe.get_doc("Assessee Answer", existing)
+			doc.set("answers", [{"question": q, "answer": a} for q, a in answers.items()])
+			doc.save(ignore_permissions=True)
 			result["updated"] += 1
 		else:
 			frappe.get_doc(

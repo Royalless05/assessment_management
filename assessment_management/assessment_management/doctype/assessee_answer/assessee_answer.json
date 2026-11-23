@@ -32,15 +32,23 @@
    "in_list_view": 1
   },
   {
+   "fieldname": "answers",
+   "fieldtype": "Table",
+   "label": "Questions and Answers",
+   "options": "Assessee Answer Item"
+  },
+  {
    "fieldname": "answers_json",
    "fieldtype": "Long Text",
-   "label": "Answers Json"
+   "label": "Answers (stored)",
+   "hidden": 1
   }
  ],
  "field_order": [
   "project",
   "assessee",
   "assessment_type",
+  "answers",
   "answers_json"
  ],
  "permissions": [

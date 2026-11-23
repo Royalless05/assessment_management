@@ -1,0 +1,20 @@
+{
+ "doctype": "Page",
+ "name": "assessor-group-report",
+ "page_name": "assessor-group-report",
+ "title": "Report Assessor Group",
+ "module": "Assessment Management",
+ "standard": "Yes",
+ "roles": [
+  {
+   "role": "Assessment Admin"
+  },
+  {
+   "role": "Assessment Admin View"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "icon": "users"
+}

@@ -1,0 +1,23 @@
+{
+ "doctype": "Page",
+ "name": "assessor-schedules",
+ "page_name": "assessor-schedules",
+ "title": "Assessor Schedules",
+ "module": "Assessment Management",
+ "standard": "Yes",
+ "roles": [
+  {
+   "role": "Assessment Admin"
+  },
+  {
+   "role": "Assessment Admin View"
+  },
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Assessor"
+  }
+ ],
+ "icon": "calendar"
+}

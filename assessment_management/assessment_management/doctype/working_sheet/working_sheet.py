@@ -42,6 +42,7 @@ class WorkingSheet(Document):
 			if not (self.flags.finishing or self.flags.revising):
 				self.sheet_status = old_status  # status is only changed through the actions below
 			self.check_items_unchanged()
+			self.check_feedback_admin_fields()
 			if not self.flags.prefill:
 				self.last_autosaved = now_datetime()
 
@@ -52,6 +53,16 @@ class WorkingSheet(Document):
 			validate_attachment(self.feedback_photo, ("jpg", "jpeg", "png"), label=_("Photo Evidence"))
 		if self.flags.finishing:
 			self.validate_for_finish()
+
+	def check_feedback_admin_fields(self):
+		"""Video link and photo of the Feedback sheet are filled in by Admin only (Remarks stay with the assessor)."""
+		if self.assessment_type != "Feedback" or is_admin() or self.flags.ignore_permissions:
+			return
+		old = frappe.db.get_value("Working Sheet", self.name, ["video_feedback_link", "feedback_photo"], as_dict=True)
+		if (self.video_feedback_link or None) != (old.video_feedback_link or None) or (
+			self.feedback_photo or None
+		) != (old.feedback_photo or None):
+			frappe.throw(_("Video Feedback Results Link and Photo Evidence can only be filled in by an Assessment Admin."))
 
 	def load_context(self):
 		row = get_schedule_row(self.assessment, self.assessment_type)

@@ -40,7 +40,13 @@ frappe.ui.form.on("Working Sheet", {
 		} else {
 			frm.page.clear_primary_action();
 			frm.page.set_primary_action(__("Submit and Finish"), () => frm.trigger("submit_and_finish"));
-			frm.add_custom_button(__("Save as Draft"), () => frm.save());
+			frm.add_custom_button(isAdmin ? __("Save") : __("Save as Draft"), () => frm.save())
+				.addClass(isAdmin ? "btn-primary" : "btn-warning");
+			if (frm.doc.assessment_type === "Feedback" && !isAdmin) {
+				// PDF: link video and photo are Admin-only inputs
+				frm.set_df_property("video_feedback_link", "read_only", 1);
+				frm.set_df_property("feedback_photo", "read_only", 1);
+			}
 			frm.trigger("start_autosave");
 		}
 

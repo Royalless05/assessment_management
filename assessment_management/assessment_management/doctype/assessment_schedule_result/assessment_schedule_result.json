@@ -21,7 +21,8 @@
    "fieldtype": "Link",
    "label": "Assessor",
    "options": "Assessor",
-   "in_list_view": 1
+   "in_list_view": 1,
+   "ignore_user_permissions": 1
   },
   {
    "fieldname": "scheduled_at",

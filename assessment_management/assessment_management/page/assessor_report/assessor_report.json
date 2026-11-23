@@ -1,0 +1,20 @@
+{
+ "doctype": "Page",
+ "name": "assessor-report",
+ "page_name": "assessor-report",
+ "title": "Report Assessor",
+ "module": "Assessment Management",
+ "standard": "Yes",
+ "roles": [
+  {
+   "role": "Assessment Admin"
+  },
+  {
+   "role": "Assessment Admin View"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "icon": "users"
+}

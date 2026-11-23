@@ -8,6 +8,11 @@
  "editable_grid": 0,
  "fields": [
   {
+   "fieldname": "tab_profile",
+   "fieldtype": "Tab Break",
+   "label": "Profile Information"
+  },
+  {
    "fieldname": "user",
    "fieldtype": "Link",
    "label": "User",
@@ -35,7 +40,7 @@
   {
    "fieldname": "sb1",
    "fieldtype": "Section Break",
-   "label": "Personal Data"
+   "label": "Personal Details"
   },
   {
    "fieldname": "phone",
@@ -65,9 +70,9 @@
    "label": "Children Count"
   },
   {
-   "fieldname": "sb2",
-   "fieldtype": "Section Break",
-   "label": "Bank Account"
+   "fieldname": "tab_bank",
+   "fieldtype": "Tab Break",
+   "label": "Bank Information"
   },
   {
    "fieldname": "bank_name",
@@ -85,29 +90,30 @@
    "label": "Bank Account Name"
   },
   {
-   "fieldname": "sb3",
-   "fieldtype": "Section Break",
-   "label": "Meeting"
-  },
-  {
-   "fieldname": "default_feedback_link",
-   "fieldtype": "Data",
-   "label": "Default Feedback Link",
-   "options": "URL"
-  },
-  {
-   "fieldname": "sb4",
-   "fieldtype": "Section Break",
-   "label": "Fees"
+   "fieldname": "tab_fee",
+   "fieldtype": "Tab Break",
+   "label": "Assessment Fee"
   },
   {
    "fieldname": "fees",
    "fieldtype": "Table",
    "label": "Assessor Fee",
    "options": "Assessor Fee"
+  },
+  {
+   "fieldname": "tab_settings",
+   "fieldtype": "Tab Break",
+   "label": "Additional Settings"
+  },
+  {
+   "fieldname": "default_feedback_link",
+   "fieldtype": "Data",
+   "label": "Default Feedback Link",
+   "options": "URL"
   }
  ],
  "field_order": [
+  "tab_profile",
   "user",
   "unique_id",
   "full_name",
@@ -117,14 +123,14 @@
   "npwp",
   "marital_status",
   "children_count",
-  "sb2",
+  "tab_bank",
   "bank_name",
   "bank_account_number",
   "bank_account_name",
-  "sb3",
-  "default_feedback_link",
-  "sb4",
-  "fees"
+  "tab_fee",
+  "fees",
+  "tab_settings",
+  "default_feedback_link"
  ],
  "permissions": [
   {

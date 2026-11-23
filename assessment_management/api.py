@@ -456,3 +456,306 @@ def get_assessor_report(assessor, month=None, status=None):
 	                     fields=["month", "jumlah_simulasi", "kualitas_observasi", "konsistensi_pelaporan",
 	                             "kepatuhan_administratif", "feedback_peserta"], order_by="month desc")
 	return {"profile": profile, "sheets": rows, "kpi": kpi}
+
+
+# ================================================================ Report Assessor
+KPI_FIELDS = ("jumlah_simulasi", "kualitas_observasi", "konsistensi_pelaporan",
+              "kepatuhan_administratif", "feedback_peserta")
+KPI_LABELS = {
+	"jumlah_simulasi": "Jumlah Simulasi",
+	"kualitas_observasi": "Kualitas Observasi",
+	"konsistensi_pelaporan": "Konsistensi Pelaporan",
+	"kepatuhan_administratif": "Kepatuhan Administratif",
+	"feedback_peserta": "Feedback Peserta",
+}
+KPI_DOCTYPES = {"assessor": ("Assessor KPI", "assessor"), "group": ("Assessor Group KPI", "assessor_group")}
+
+
+def _month_of(value):
+	return value.strftime("%Y-%m") if value else None
+
+
+def _filter_rows(rows, project=None, month=None, finished=None, paid=None, assessee=None, assessment_type=None,
+                 status=None, scheduled_from=None, scheduled_to=None, finished_from=None, finished_to=None):
+	out = []
+	for r in rows:
+		if project and r.project != project:
+			continue
+		if assessee and r.assessee != assessee:
+			continue
+		if assessment_type and r.assessment_type != assessment_type:
+			continue
+		if status and r.status != status:
+			continue
+		if month and _month_of(r.scheduled_at) != month:
+			continue
+		if finished == "Finished" and not r.finished_at:
+			continue
+		if finished == "Not Finished" and r.finished_at:
+			continue
+		if paid == "Paid" and r.payment_status != "Paid":
+			continue
+		if paid == "Need to Be Paid" and r.payment_status != "Need to Be Paid":
+			continue
+		if paid == "Not Finished" and r.payment_status != "Not Finished Yet":
+			continue
+		if scheduled_from and (not r.scheduled_at or getdate(r.scheduled_at) < getdate(scheduled_from)):
+			continue
+		if scheduled_to and (not r.scheduled_at or getdate(r.scheduled_at) > getdate(scheduled_to)):
+			continue
+		if finished_from and (not r.finished_at or getdate(r.finished_at) < getdate(finished_from)):
+			continue
+		if finished_to and (not r.finished_at or getdate(r.finished_at) > getdate(finished_to)):
+			continue
+		out.append(r)
+	return out
+
+
+@frappe.whitelist()
+def get_assessor_list(project=None):
+	"""Report Assessor: one line per assessor with Assessment Assigned / Completed."""
+	require_viewer()
+	rows = _rows(project=project)
+	assigned, done = {}, {}
+	for r in rows:
+		if r.assessor:
+			assigned[r.assessor] = assigned.get(r.assessor, 0) + 1
+			if r.status == "Finished":
+				done[r.assessor] = done.get(r.assessor, 0) + 1
+	out = []
+	for a in frappe.get_all("Assessor", fields=["name", "full_name", "unique_id"], order_by="full_name asc"):
+		out.append({"assessor": a.name, "full_name": a.full_name, "unique_id": a.unique_id,
+		            "assigned": assigned.get(a.name, 0), "completed": done.get(a.name, 0)})
+	return out
+
+
+@frappe.whitelist()
+def get_assessor_detail(assessor):
+	"""Assessor Info + fee table + default feedback link (Detail Report Assessor)."""
+	_assert_own_or_viewer(assessor)
+	doc = frappe.get_doc("Assessor", assessor)
+	rows = _rows(assessor=assessor)
+	return {
+		"name": doc.name, "full_name": doc.full_name, "email": doc.user, "unique_id": doc.unique_id,
+		"phone": doc.phone, "nik": doc.nik, "npwp": doc.npwp, "marital_status": doc.marital_status,
+		"children_count": doc.children_count, "bank_name": doc.bank_name,
+		"bank_account_number": doc.bank_account_number, "bank_account_name": doc.bank_account_name,
+		"default_feedback_link": doc.default_feedback_link,
+		"fees": [{"assessment_type": f.assessment_type, "fee_amount": f.fee_amount} for f in doc.fees],
+		"assigned": len(rows), "finished": sum(1 for r in rows if r.status == "Finished"),
+	}
+
+
+def _assessor_sheets(assessor, project=None, month=None, finished=None, paid=None):
+	names = dict(frappe.get_all("Assessee", fields=["name", "full_name"], as_list=True))
+	rows = _filter_rows(_rows(assessor=assessor), project=project, month=month, finished=finished, paid=paid)
+	rows.sort(key=lambda r: (r.scheduled_at is None, r.scheduled_at), reverse=True)
+	return [
+		{"project": r.project, "assessment": r.assessment, "assessee": r.assessee,
+		 "assessee_name": names.get(r.assessee, ""), "assessment_type": r.assessment_type,
+		 "scheduled_at": str(r.scheduled_at or ""), "finished_at": str(r.finished_at or ""),
+		 "status": r.status, "fee_amount": flt(r.fee_amount) if r.finished_at else None,
+		 "payment_status": r.payment_status, "paid_date": str(r.paid_date or ""),
+		 "working_sheet": r.working_sheet}
+		for r in rows
+	]
+
+
+@frappe.whitelist()
+def get_assessor_sheets(assessor, project=None, month=None, finished=None, paid=None):
+	_assert_own_or_viewer(assessor)
+	return _assessor_sheets(assessor, project, month, finished, paid)
+
+
+@frappe.whitelist()
+def export_assessor_sheets(assessor, filters=None):
+	"""Export to Excel of the Working Sheets tab, honouring its filters."""
+	_assert_own_or_viewer(assessor)
+	f = json.loads(filters) if filters else {}
+	data = _assessor_sheets(assessor, f.get("project"), f.get("month"), f.get("finished"), f.get("paid"))
+	head = ["Project", "Assessment", "Assessee", "Type", "Scheduled At", "Finished At", "Fee", "Payment", "Paid Date"]
+	table = [head] + [
+		[d["project"], d["assessment"], f"{d['assessee']} - {d['assessee_name']}", d["assessment_type"],
+		 d["scheduled_at"], d["finished_at"], d["fee_amount"] if d["fee_amount"] is not None else "",
+		 d["payment_status"], d["paid_date"]]
+		for d in data
+	]
+	from frappe.utils.xlsxutils import make_xlsx
+
+	frappe.response["filename"] = f"working_sheets_{assessor}.xlsx"
+	frappe.response["filecontent"] = make_xlsx(table, "Working Sheets").getvalue()
+	frappe.response["type"] = "binary"
+
+
+def _kpi_rows(kind, key):
+	dt, link = KPI_DOCTYPES[kind]
+	return [
+		{"name": k.name, "month": str(k.month), "label": k.month.strftime("%B %Y") if k.month else "",
+		 "remarks": k.remarks, **{f: k.get(f) for f in KPI_FIELDS}}
+		for k in frappe.get_all(dt, filters={link: key}, fields=["name", "month", "remarks", *KPI_FIELDS],
+		                        order_by="month desc")
+	]
+
+
+@frappe.whitelist()
+def get_kpi(kind, key):
+	"""KPI table of an assessor (kind='assessor') or an assessor group (kind='group')."""
+	if kind not in KPI_DOCTYPES:
+		frappe.throw(_("Unknown KPI kind."))
+	require_viewer()
+	return {"labels": KPI_LABELS, "rows": _kpi_rows(kind, key)}
+
+
+@frappe.whitelist()
+def save_kpi(kind, key, values, name=None):
+	"""Add / edit one KPI entry (Admin only). One entry per period per assessor or group."""
+	require_admin()
+	if kind not in KPI_DOCTYPES:
+		frappe.throw(_("Unknown KPI kind."))
+	dt, link = KPI_DOCTYPES[kind]
+	v = json.loads(values) if isinstance(values, str) else values
+	doc = frappe.get_doc(dt, name) if name else frappe.new_doc(dt)
+	doc.set(link, key)
+	doc.month = v.get("month")
+	for f in KPI_FIELDS:
+		doc.set(f, v.get(f) or None)
+	doc.remarks = v.get("remarks")
+	doc.save()
+	return doc.name
+
+
+@frappe.whitelist()
+def delete_kpi(kind, name):
+	require_admin()
+	if kind not in KPI_DOCTYPES:
+		frappe.throw(_("Unknown KPI kind."))
+	frappe.delete_doc(KPI_DOCTYPES[kind][0], name)
+
+
+# ========================================================== Report Assessor Group
+@frappe.whitelist()
+def get_group_list():
+	require_viewer()
+	out = []
+	for g in frappe.get_all("Assessor Group", fields=["name", "group_name", "project"], order_by="group_name asc"):
+		members = frappe.get_all("Group Members", filters={"parent": g.name, "parenttype": "Assessor Group"},
+		                         pluck="assessor", order_by="idx asc")
+		g["members"] = [frappe.db.get_value("Assessor", m, "full_name") or m for m in members]
+		out.append(g)
+	return out
+
+
+@frappe.whitelist()
+def get_group_detail(name):
+	require_viewer()
+	g = frappe.get_doc("Assessor Group", name)
+	members = []
+	for m in g.members:
+		a = frappe.db.get_value("Assessor", m.assessor, ["full_name", "user", "unique_id"], as_dict=True) or {}
+		members.append({"assessor": m.assessor, "name": a.get("full_name"), "email": a.get("user"),
+		                "unique_id": a.get("unique_id")})
+	return {"name": g.name, "group_name": g.group_name, "project": g.project, "members": members}
+
+
+# ============================================================ Assessor Schedules
+@frappe.whitelist()
+def get_assessor_schedules(project=None, assessee=None, assessment_type=None, finished=None, status=None,
+                           scheduled_from=None, scheduled_to=None, finished_from=None, finished_to=None,
+                           assessor=None):
+	"""Schedule list. Assessors only ever see their own rows; Admin / Admin View may pick an assessor."""
+	if is_viewer():
+		who = assessor
+	else:
+		who = get_assessor_for_user()
+		if not who:
+			frappe.throw(_("No Assessor profile is linked to your user."), frappe.PermissionError)
+	rows = _filter_rows(
+		_rows(assessor=who) if who else [r for r in _rows() if r.assessor],
+		project=project, assessee=assessee, assessment_type=assessment_type, finished=finished, status=status,
+		scheduled_from=scheduled_from, scheduled_to=scheduled_to, finished_from=finished_from,
+		finished_to=finished_to,
+	)
+	rows.sort(key=lambda r: (r.scheduled_at is None, r.scheduled_at), reverse=True)
+	names = dict(frappe.get_all("Assessee", fields=["name", "full_name"], as_list=True))
+	out = []
+	for r in rows[:500]:
+		reason = None if r.finished_at else get_lock_reason(r.assessment, r.assessment_type)
+		out.append({
+			"project": r.project, "assessment": r.assessment, "assessee": r.assessee,
+			"assessee_name": names.get(r.assessee, ""), "assessment_type": r.assessment_type,
+			"assessor": r.assessor, "scheduled_at": str(r.scheduled_at or ""),
+			"deadline_at": str(r.deadline_at or ""), "finished_at": str(r.finished_at or ""),
+			"status": r.status, "working_sheet": r.working_sheet,
+			"locked": bool(reason), "lock_reason": reason,
+		})
+	return out
+
+
+# ===================================================================== Dashboard+
+def _dash_rows(project=None, assessor=None):
+	return _rows(project=project, assessor=assessor)
+
+
+@frappe.whitelist()
+def get_dashboard_v2(project=None):
+	"""Dashboard with project filter. Admin: stacked completion by period/type, latest activities."""
+	if is_viewer():
+		rows = _dash_rows(project)
+		targets = frappe.get_all("Assessment Project", filters={"name": project} if project else {},
+		                         pluck="target_data")
+		target = sum(cint(t) for t in targets)
+		done = frappe.db.count("Assessment", {"completed_count": TOTAL_STAGES, **({"project": project} if project else {})})
+		stack = {}
+		for r in rows:
+			if r.finished_at:
+				m = r.finished_at.strftime("%Y-%m")
+				stack.setdefault(m, {t: 0 for t in ASSESSMENT_TYPES})[r.assessment_type] += 1
+		months = sorted(stack)
+		latest = sorted([r for r in rows if r.finished_at], key=lambda r: r.finished_at, reverse=True)[:10]
+		names = dict(frappe.get_all("Assessee", fields=["name", "full_name"], as_list=True))
+		return {
+			"mode": "admin", "types": ASSESSMENT_TYPES, "target": target, "finished_assessments": done,
+			"assessors_assigned": len({r.assessor for r in rows if r.assessor}),
+			"paid": sum(1 for r in rows if r.payment_status == "Paid"),
+			"need_to_be_paid": sum(1 for r in rows if r.payment_status == "Need to Be Paid"),
+			"paid_amount": sum(flt(r.fee_amount) for r in rows if r.payment_status == "Paid"),
+			"unpaid_amount": sum(flt(r.fee_amount) for r in rows if r.payment_status == "Need to Be Paid"),
+			"periods": months,
+			"stack": {t: [stack[m][t] for m in months] for t in ASSESSMENT_TYPES},
+			"total_by_period": [sum(stack[m].values()) for m in months],
+			"latest": [{"finished_at": str(r.finished_at), "assessee": f"{r.assessee} - {names.get(r.assessee, '')}",
+			            "assessor": r.assessor, "type": r.assessment_type, "status": r.status} for r in latest],
+		}
+	assessor = get_assessor_for_user()
+	if not assessor:
+		frappe.throw(_("No Assessor profile is linked to your user."), frappe.PermissionError)
+	rows = _dash_rows(project, assessor)
+	names = dict(frappe.get_all("Assessee", fields=["name", "full_name"], as_list=True))
+	pending = sorted([r for r in rows if r.status != "Finished"], key=lambda r: (r.scheduled_at is None, r.scheduled_at))
+	return {
+		"mode": "assessor", "assessor": assessor, "assigned": len(rows),
+		"finished": sum(1 for r in rows if r.status == "Finished"),
+		"paid": sum(1 for r in rows if r.payment_status == "Paid"),
+		"need_to_be_paid": sum(1 for r in rows if r.payment_status == "Need to Be Paid"),
+		"paid_amount": sum(flt(r.fee_amount) for r in rows if r.payment_status == "Paid"),
+		"unpaid_amount": sum(flt(r.fee_amount) for r in rows if r.payment_status == "Need to Be Paid"),
+		"my_schedule": [
+			{"assessment": r.assessment, "assessee": f"{r.assessee} - {names.get(r.assessee, '')}",
+			 "type": r.assessment_type, "scheduled_at": str(r.scheduled_at or ""),
+			 "finished_at": str(r.finished_at or ""), "status": r.status, "working_sheet": r.working_sheet}
+			for r in (pending + sorted([r for r in rows if r.status == "Finished"], key=lambda r: r.finished_at, reverse=True))[:30]
+		],
+	}
+
+
+@frappe.whitelist()
+def get_kpi_summary(kind, key=None, month=None):
+	"""Donut data for the dashboard: value of each KPI indicator for one assessor / group in a month."""
+	require_viewer()
+	if kind not in KPI_DOCTYPES or not key or not month:
+		return {"labels": KPI_LABELS, "values": None}
+	dt, link = KPI_DOCTYPES[kind]
+	start = getdate(f"{month}-01")
+	row = frappe.db.get_value(dt, {link: key, "month": ["between", [start, frappe.utils.get_last_day(start)]]},
+	                          list(KPI_FIELDS), as_dict=True)
+	return {"labels": KPI_LABELS, "values": row}

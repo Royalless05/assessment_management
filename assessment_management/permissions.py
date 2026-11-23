@@ -60,14 +60,14 @@ def assessee_answer_query(user=None):
 def working_sheet_has_permission(doc, ptype=None, user=None, **kwargs):
 	free, a = _scope(user)
 	if free:
-		return None
+		return True
 	return bool(a and doc.assessor == a)
 
 
 def assessment_has_permission(doc, ptype=None, user=None, **kwargs):
 	free, a = _scope(user)
 	if free:
-		return None
+		return True
 	if not a or ptype not in ("read", "select", None):
 		return False
 	return any(r.assessor == a for r in doc.get("schedules") or [])

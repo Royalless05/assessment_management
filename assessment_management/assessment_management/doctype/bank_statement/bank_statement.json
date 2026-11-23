@@ -32,7 +32,8 @@
    "fieldname": "attachment",
    "fieldtype": "Attach",
    "label": "Attachment (PDF/JPG/PNG, max 1 MB)",
-   "reqd": 1
+   "reqd": 1,
+   "in_list_view": 1
   },
   {
    "fieldname": "remarks",

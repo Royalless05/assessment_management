@@ -1,4 +1,8 @@
-"""Create online meeting links (Google Meet / Zoom / Microsoft Teams) for Event."""
+"""Create online meeting links (Google Meet / Zoom / Microsoft Teams) for Event.
+
+Used by the Assessment schedule: see integrations/meeting.py. Can also be used for any Event by
+choosing a Meeting Platform in the Online Meeting section of the Event form.
+"""
 
 import uuid
 from datetime import timedelta, timezone
@@ -27,7 +31,7 @@ def enqueue_meeting_creation(doc, method=None):
 		return
 
 	frappe.enqueue(
-		"meeting_hub.api.create_meeting_for_event",
+		"assessment_management.integrations.providers.create_meeting_for_event",
 		queue="short",
 		event_name=doc.name,
 		enqueue_after_commit=True,
@@ -35,7 +39,7 @@ def enqueue_meeting_creation(doc, method=None):
 
 
 def _lock_key(event_name):
-	return f"meeting_hub:create:{event_name}"
+	return f"assessment_management:meeting:{event_name}"
 
 
 def _acquire_lock(event_name):
@@ -44,7 +48,7 @@ def _acquire_lock(event_name):
 		cache = frappe.cache
 		return bool(cache.set(cache.make_key(_lock_key(event_name)), 1, nx=True, ex=LOCK_SECONDS))
 	except Exception:
-		frappe.log_error(title="Meeting Hub: lock unavailable", message=frappe.get_traceback())
+		frappe.log_error(title="Online Meeting: lock unavailable", message=frappe.get_traceback())
 		return True
 
 
@@ -89,18 +93,18 @@ def create_meeting_for_event(event_name):
 		)
 		frappe.db.commit()
 		_publish_refresh(event_name)
-		_run_hooks("meeting_hub_meeting_created", event_name)
+		_notify("created", event_name)
 	except Exception as e:
 		frappe.db.rollback()
 		message = _short_error(e)
-		frappe.log_error(title=f"Meeting Hub: could not create meeting for {event_name}", message=frappe.get_traceback())
+		frappe.log_error(title=f"Online Meeting: could not create meeting for {event_name}", message=frappe.get_traceback())
 		try:
 			frappe.db.set_value("Event", event_name, "custom_meeting_error", message, update_modified=False)
 			frappe.db.commit()
 			_publish_refresh(event_name)
-			_run_hooks("meeting_hub_meeting_failed", event_name)
+			_notify("failed", event_name)
 		except Exception:
-			frappe.log_error(title="Meeting Hub: could not store error", message=frappe.get_traceback())
+			frappe.log_error(title="Online Meeting: could not store error", message=frappe.get_traceback())
 	finally:
 		_release_lock(event_name)
 
@@ -114,15 +118,17 @@ def _publish_refresh(event_name):
 	frappe.publish_realtime("doc_update", {"doctype": "Event", "name": event_name}, doctype="Event", docname=event_name)
 
 
-def _run_hooks(hook_name, event_name):
-	"""Let other apps react (hook receives the Event document)."""
-	for method in frappe.get_hooks(hook_name) or []:
-		try:
-			frappe.get_attr(method)(frappe.get_doc("Event", event_name))
-			frappe.db.commit()
-		except Exception:
-			frappe.db.rollback()
-			frappe.log_error(title=f"Meeting Hub: hook {method} failed", message=frappe.get_traceback())
+def _notify(kind, event_name):
+	"""Tell the assessment schedule that a meeting link is ready (kind='created') or failed."""
+	from assessment_management.integrations import meeting
+
+	handler = meeting.on_meeting_created if kind == "created" else meeting.on_meeting_failed
+	try:
+		handler(frappe.get_doc("Event", event_name))
+		frappe.db.commit()
+	except Exception:
+		frappe.db.rollback()
+		frappe.log_error(title=f"Online Meeting: {kind} handler failed", message=frappe.get_traceback())
 
 
 # ------------------------------------------------------------------- time utils

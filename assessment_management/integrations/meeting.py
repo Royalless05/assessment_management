@@ -1,9 +1,9 @@
-"""Automatic online meeting links for assessment schedule rows (needs the meeting_hub app).
+"""Automatic online meeting links for assessment schedule rows.
 
 Flow: Admin saves a schedule (assessor + Scheduled At) -> an Event with a meeting platform is
-created -> meeting_hub generates the join URL in the background -> `on_meeting_created`
-copies the URL into the schedule row's Link Meet.
-Without meeting_hub or without a Default Meeting Platform nothing here runs and Link Meet
+created -> integrations/providers.py generates the join URL in the background ->
+`on_meeting_created` copies the URL into the schedule row's Link Meet.
+Without a Default Meeting Platform (Online Meeting Settings) nothing here runs and Link Meet
 keeps working as before (typed by hand, or the assessor's default Feedback link).
 """
 
@@ -18,8 +18,6 @@ SETTINGS = "Online Meeting Settings"
 
 
 def default_platform():
-	if "meeting_hub" not in frappe.get_installed_apps():
-		return None
 	return frappe.db.get_single_value(SETTINGS, "default_platform") or None
 
 
@@ -97,7 +95,7 @@ def remove_events_for_assessment(assessment_name):
 		frappe.delete_doc("Event", name, ignore_permissions=True, force=1)
 
 
-# ------------------------------------------------------- hooks from meeting_hub
+# ------------------------------------------- called by integrations/providers.py
 def on_meeting_created(event):
 	row = event.get("custom_assessment_row")
 	url = event.get("custom_meeting_url")

@@ -10,7 +10,7 @@
  "icon": "assets",
  "indicator_color": "blue",
  "description": "Competency assessment management",
- "content": "[{\"id\": \"o8OKhNbpcR\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Shortcuts</b></span>\", \"col\": 12}}, {\"id\": \"O5mJA2imbo\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Assessment\", \"col\": 3}}, {\"id\": \"H11C9aKL9H\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Working Sheet\", \"col\": 3}}, {\"id\": \"YxQ01oJpAZ\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Dashboard\", \"col\": 3}}, {\"id\": \"mFhv6sRcr2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Monitoring\", \"col\": 3}}, {\"id\": \"RXq0NQhIO6\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Assessor\", \"col\": 3}}, {\"id\": \"j2JTtb3c7K\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Assessee\", \"col\": 3}}, {\"id\": \"aSchedShort1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Assessor Schedules\", \"col\": 3}}, {\"id\": \"pKQvFqn0jX\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"DpX2qFX3jq\", \"type\": \"card\", \"data\": {\"card_name\": \"Master Data\", \"col\": 4}}, {\"id\": \"8gSJQzwwar\", \"type\": \"card\", \"data\": {\"card_name\": \"Activities\", \"col\": 4}}, {\"id\": \"Ni3QQpSALz\", \"type\": \"card\", \"data\": {\"card_name\": \"Reports & KPI\", \"col\": 4}}]",
+ "content": "[{\"id\": \"o8OKhNbpcR\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Shortcuts</b></span>\", \"col\": 12}}, {\"id\": \"O5mJA2imbo\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Assessment\", \"col\": 3}}, {\"id\": \"H11C9aKL9H\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Working Sheet\", \"col\": 3}}, {\"id\": \"YxQ01oJpAZ\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Dashboard\", \"col\": 3}}, {\"id\": \"mFhv6sRcr2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Monitoring\", \"col\": 3}}, {\"id\": \"RXq0NQhIO6\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Assessor\", \"col\": 3}}, {\"id\": \"j2JTtb3c7K\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Assessee\", \"col\": 3}}, {\"id\": \"aSchedShort1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Assessor Schedules\", \"col\": 3}}, {\"id\": \"pKQvFqn0jX\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"DpX2qFX3jq\", \"type\": \"card\", \"data\": {\"card_name\": \"Master Data\", \"col\": 4}}, {\"id\": \"8gSJQzwwar\", \"type\": \"card\", \"data\": {\"card_name\": \"Activities\", \"col\": 4}}, {\"id\": \"Ni3QQpSALz\", \"type\": \"card\", \"data\": {\"card_name\": \"Reports & KPI\", \"col\": 4}}, {\"id\": \"sOnlineMeet1\", \"type\": \"card\", \"data\": {\"card_name\": \"Settings\", \"col\": 4}}]",
  "shortcuts": [
   {
    "label": "Assessment",
@@ -242,6 +242,24 @@
    "label": "Assessor Schedules",
    "link_type": "Page",
    "link_to": "assessor-schedules",
+   "hidden": 0,
+   "is_query_report": 0,
+   "onboard": 0,
+   "dependencies": ""
+  },
+  {
+   "type": "Card Break",
+   "label": "Settings",
+   "hidden": 0,
+   "is_query_report": 0,
+   "link_count": 1,
+   "onboard": 0
+  },
+  {
+   "type": "Link",
+   "label": "Online Meeting Settings",
+   "link_type": "DocType",
+   "link_to": "Online Meeting Settings",
    "hidden": 0,
    "is_query_report": 0,
    "onboard": 0,

@@ -1,7 +1,7 @@
 {
  "doctype": "DocType",
  "name": "Online Meeting Settings",
- "module": "Meeting Hub",
+ "module": "Assessment Management",
  "custom": 0,
  "issingle": 1,
  "engine": "InnoDB",

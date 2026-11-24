@@ -9,7 +9,7 @@ description = "Assessment Management for ERPNext v16"
 requires-python = ">=3.10"
 readme = "README.md"
 dynamic = ["version"]
-dependencies = []
+dependencies = ["requests"]
 
 [tool.bench.frappe-dependencies]
 frappe = ">=16.0.0,<17.0.0"

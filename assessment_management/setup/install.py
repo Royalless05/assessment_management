@@ -12,29 +12,23 @@ def create_roles():
 
 
 def create_event_fields():
-	"""Link an Event back to the assessment schedule row it was made for."""
+	"""Custom fields on Event: online meeting section + link back to the schedule row."""
 	from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
 
-	create_custom_fields(
-		{
-			"Event": [
-				{
-					"fieldname": "custom_assessment",
-					"fieldtype": "Link",
-					"label": "Assessment",
-					"options": "Assessment",
-					"read_only": 1,
-					"insert_after": "event_participants",
-				},
-				{
-					"fieldname": "custom_assessment_row",
-					"fieldtype": "Data",
-					"label": "Assessment Schedule Row",
-					"read_only": 1,
-					"hidden": 1,
-					"insert_after": "custom_assessment",
-				},
-			]
-		},
-		update=True,
-	)
+	fields, prev = [], "event_participants"
+	for fieldname, fieldtype, label, extra in [
+		("custom_online_meeting_section", "Section Break", "Online Meeting", {}),
+		("custom_meeting_platform", "Select", "Meeting Platform", {"options": "\nGoogle Meet\nZoom\nMicrosoft Teams"}),
+		("custom_meeting_url", "Data", "Meeting URL", {"read_only": 1}),
+		("custom_meeting_id", "Data", "Meeting ID", {"read_only": 1}),
+		("custom_meeting_password", "Data", "Meeting Passcode", {"read_only": 1}),
+		("custom_meeting_error", "Small Text", "Meeting Sync Error", {"read_only": 1}),
+		("custom_assessment", "Link", "Assessment", {"options": "Assessment", "read_only": 1}),
+		("custom_assessment_row", "Data", "Assessment Schedule Row", {"read_only": 1, "hidden": 1}),
+	]:
+		fields.append(
+			{"fieldname": fieldname, "fieldtype": fieldtype, "label": label, "insert_after": prev, **extra}
+		)
+		prev = fieldname
+
+	create_custom_fields({"Event": fields}, update=True)

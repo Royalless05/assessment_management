@@ -41,6 +41,10 @@ add_to_apps_screen = [
 	}
 ]
 
-# Called by the meeting_hub app when a meeting link is ready / could not be created
-meeting_hub_meeting_created = ["assessment_management.integrations.meeting.on_meeting_created"]
-meeting_hub_meeting_failed = ["assessment_management.integrations.meeting.on_meeting_failed"]
+# Online meeting links: any Event with a Meeting Platform gets a join URL in the background
+doc_events = {
+	"Event": {
+		"after_insert": "assessment_management.integrations.providers.enqueue_meeting_creation",
+		"on_update": "assessment_management.integrations.providers.enqueue_meeting_creation",
+	}
+}

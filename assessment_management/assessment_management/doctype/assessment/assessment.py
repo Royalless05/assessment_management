@@ -3,6 +3,7 @@ from frappe import _
 from frappe.model.document import Document
 from frappe.utils import cint, get_datetime, now_datetime
 
+from assessment_management.integrations.meeting import auto_enabled
 from assessment_management.utils import (
 	ASSESSMENT_TYPES,
 	SCHEDULE_DT,
@@ -32,8 +33,14 @@ class Assessment(Document):
 
 	def on_update(self):
 		self.ensure_working_sheets()
+		from assessment_management.integrations.meeting import sync_meetings
+
+		sync_meetings(self)
 
 	def on_trash(self):
+		from assessment_management.integrations.meeting import remove_events_for_assessment
+
+		remove_events_for_assessment(self.name)
 		for ws in frappe.get_all("Working Sheet", filters={"assessment": self.name}, pluck="name"):
 			frappe.delete_doc("Working Sheet", ws, force=1, ignore_permissions=True)
 
@@ -102,7 +109,7 @@ class Assessment(Document):
 						indicator="orange",
 						alert=True,
 					)
-			if row.assessment_type == "Feedback" and row.assessor and not row.link_meet:
+			if row.assessment_type == "Feedback" and row.assessor and not row.link_meet and not auto_enabled():
 				row.link_meet = frappe.db.get_value("Assessor", row.assessor, "default_feedback_link")
 
 	def refresh_status(self):
@@ -180,6 +187,9 @@ def delete_schedule(assessment, assessment_type):
 		sheet_has_data = frappe.db.get_value("Working Sheet", row.working_sheet, "last_autosaved")
 		if sheet_has_data:
 			frappe.throw(_("The assessor has already started the Working Sheet; the schedule cannot be deleted."))
+	from assessment_management.integrations.meeting import remove_events_for_row
+
+	remove_events_for_row(row.name)
 	frappe.db.set_value(
 		SCHEDULE_DT,
 		row.name,

@@ -1,0 +1,70 @@
+[
+ {
+  "doctype": "Custom Field",
+  "dt": "Event",
+  "name": "Event-custom_online_meeting_section",
+  "fieldname": "custom_online_meeting_section",
+  "fieldtype": "Section Break",
+  "label": "Online Meeting",
+  "insert_after": "event_participants",
+  "read_only": 0,
+  "module": "Meeting Hub"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Event",
+  "name": "Event-custom_meeting_platform",
+  "fieldname": "custom_meeting_platform",
+  "fieldtype": "Select",
+  "label": "Meeting Platform",
+  "insert_after": "custom_online_meeting_section",
+  "read_only": 0,
+  "module": "Meeting Hub",
+  "options": "\nGoogle Meet\nZoom\nMicrosoft Teams",
+  "in_standard_filter": 1
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Event",
+  "name": "Event-custom_meeting_url",
+  "fieldname": "custom_meeting_url",
+  "fieldtype": "Data",
+  "label": "Meeting URL",
+  "insert_after": "custom_meeting_platform",
+  "read_only": 1,
+  "module": "Meeting Hub"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Event",
+  "name": "Event-custom_meeting_id",
+  "fieldname": "custom_meeting_id",
+  "fieldtype": "Data",
+  "label": "Meeting ID",
+  "insert_after": "custom_meeting_url",
+  "read_only": 1,
+  "module": "Meeting Hub"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Event",
+  "name": "Event-custom_meeting_password",
+  "fieldname": "custom_meeting_password",
+  "fieldtype": "Data",
+  "label": "Meeting Passcode",
+  "insert_after": "custom_meeting_id",
+  "read_only": 1,
+  "module": "Meeting Hub"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Event",
+  "name": "Event-custom_meeting_error",
+  "fieldname": "custom_meeting_error",
+  "fieldtype": "Small Text",
+  "label": "Meeting Sync Error",
+  "insert_after": "custom_meeting_password",
+  "read_only": 1,
+  "module": "Meeting Hub"
+ }
+]

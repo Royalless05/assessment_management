@@ -8,7 +8,7 @@ app_license = "mit"
 required_apps = ["erpnext"]
 
 before_install = "assessment_management.setup.install.create_roles"
-after_migrate = "assessment_management.setup.install.create_roles"
+after_migrate = ["assessment_management.setup.install.create_roles", "assessment_management.setup.install.create_event_fields"]
 
 # Row/record level restriction for Assessor role (Admin / Admin View see everything)
 permission_query_conditions = {
@@ -40,3 +40,7 @@ add_to_apps_screen = [
 		"has_permission": "assessment_management.permissions.has_app_permission",
 	}
 ]
+
+# Called by the meeting_hub app when a meeting link is ready / could not be created
+meeting_hub_meeting_created = ["assessment_management.integrations.meeting.on_meeting_created"]
+meeting_hub_meeting_failed = ["assessment_management.integrations.meeting.on_meeting_failed"]

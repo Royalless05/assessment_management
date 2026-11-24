@@ -1,0 +1,144 @@
+{
+ "doctype": "DocType",
+ "name": "Online Meeting Settings",
+ "module": "Meeting Hub",
+ "custom": 0,
+ "issingle": 1,
+ "engine": "InnoDB",
+ "fields": [
+  {
+   "fieldname": "zoom_section",
+   "fieldtype": "Section Break",
+   "label": "Zoom"
+  },
+  {
+   "fieldname": "zoom_enabled",
+   "fieldtype": "Check",
+   "label": "Enable Zoom"
+  },
+  {
+   "fieldname": "zoom_account_id",
+   "fieldtype": "Data",
+   "label": "Zoom Account ID",
+   "depends_on": "zoom_enabled"
+  },
+  {
+   "fieldname": "zoom_client_id",
+   "fieldtype": "Data",
+   "label": "Zoom Client ID",
+   "depends_on": "zoom_enabled"
+  },
+  {
+   "fieldname": "zoom_client_secret",
+   "fieldtype": "Password",
+   "label": "Zoom Client Secret",
+   "depends_on": "zoom_enabled"
+  },
+  {
+   "fieldname": "zoom_user_id",
+   "fieldtype": "Data",
+   "label": "Zoom User ID / Email",
+   "default": "me",
+   "depends_on": "zoom_enabled"
+  },
+  {
+   "fieldname": "teams_section",
+   "fieldtype": "Section Break",
+   "label": "Microsoft Teams"
+  },
+  {
+   "fieldname": "teams_enabled",
+   "fieldtype": "Check",
+   "label": "Enable Microsoft Teams"
+  },
+  {
+   "fieldname": "ms_tenant_id",
+   "fieldtype": "Data",
+   "label": "Microsoft Tenant ID",
+   "depends_on": "teams_enabled"
+  },
+  {
+   "fieldname": "ms_client_id",
+   "fieldtype": "Data",
+   "label": "Microsoft Client ID",
+   "depends_on": "teams_enabled"
+  },
+  {
+   "fieldname": "ms_client_secret",
+   "fieldtype": "Password",
+   "label": "Microsoft Client Secret",
+   "depends_on": "teams_enabled"
+  },
+  {
+   "fieldname": "ms_organizer_user_id",
+   "fieldtype": "Data",
+   "label": "Teams Organizer User ID / UPN",
+   "depends_on": "teams_enabled"
+  },
+  {
+   "fieldname": "google_section",
+   "fieldtype": "Section Break",
+   "label": "Google Meet"
+  },
+  {
+   "fieldname": "google_meet_enabled",
+   "fieldtype": "Check",
+   "label": "Enable Google Meet via Google Calendar",
+   "default": "1"
+  },
+  {
+   "fieldname": "google_meet_note",
+   "fieldtype": "HTML",
+   "label": "Google Meet Note",
+   "options": "<p class=\"text-muted\">Google Meet uses the existing Frappe <b>Google Settings</b> and an enabled <b>Google Calendar</b> record. Leave <i>Sync with Google Calendar</i> unchecked on the Event, otherwise Frappe may also create a second calendar entry.</p>"
+  },
+  {
+   "fieldname": "defaults_section",
+   "fieldtype": "Section Break",
+   "label": "Defaults for other apps"
+  },
+  {
+   "fieldname": "default_platform",
+   "fieldtype": "Select",
+   "label": "Default Meeting Platform",
+   "options": "\nGoogle Meet\nZoom\nMicrosoft Teams",
+   "description": "Used by apps that create meetings automatically, e.g. Assessment Management. Leave empty to turn automatic creation off."
+  },
+  {
+   "fieldname": "default_duration_minutes",
+   "fieldtype": "Int",
+   "label": "Default Duration (minutes)",
+   "default": "60"
+  }
+ ],
+ "field_order": [
+  "zoom_section",
+  "zoom_enabled",
+  "zoom_account_id",
+  "zoom_client_id",
+  "zoom_client_secret",
+  "zoom_user_id",
+  "teams_section",
+  "teams_enabled",
+  "ms_tenant_id",
+  "ms_client_id",
+  "ms_client_secret",
+  "ms_organizer_user_id",
+  "google_section",
+  "google_meet_enabled",
+  "google_meet_note",
+  "defaults_section",
+  "default_platform",
+  "default_duration_minutes"
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}
